@@ -25,7 +25,7 @@ struct ContentView: View {
     }
 
     @State private var numberOfQuestions = 5
-    let questionNumberOptions = [1, 5, 10, 15]
+    let questionNumberOptions = [5, 10, 15]
     @State private var currentQuestion = 1
 
     @State private var multiplier = 0
@@ -58,9 +58,7 @@ struct ContentView: View {
 
                     Section {
                         Text("You will be practice \(multiplicationTable)x multiplication tables and I will ask \(numberOfQuestions) questions. Are you ready?")
-                        Button("Start Game") {
-                            startGame()
-                        }
+                        Button("Start Game", action: startGame)
                     }
                 }
                 .navigationTitle("xTables")
@@ -71,6 +69,10 @@ struct ContentView: View {
                     Section {
                         Text("What is \(multiplicationTable) times \(multiplier)?")
                         TextField("Answer", value: $userAnswer, format: IntegerFormatStyle())
+                    }
+
+                    Section {
+                        Text("Question \(currentQuestion) of \(numberOfQuestions)")
                     }
                 }
                 .navigationTitle("xTables")
@@ -96,14 +98,14 @@ struct ContentView: View {
     }
 
     func startGame() {
-        currentStage = .game
         numberOfCorrectAnswers = 0
-        currentQuestion = 1
+        currentQuestion = 0
+        currentStage = .game
         askQuestion()
     }
 
     func askQuestion() {
-        if currentQuestion > numberOfQuestions {
+        if currentQuestion == numberOfQuestions {
             isGameOver = true
             return // will not change question
         } else {
